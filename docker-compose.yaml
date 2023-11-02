@@ -2,6 +2,22 @@ version: '3.0'
 
 services:
 
+  collector:
+    image: otel/opentelemetry-collector:latest
+    container_name: collector
+    hostname: collector
+    depends_on:
+      tempo:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
+    command: ["--config=/etc/collector-config.yaml"]
+    volumes:
+      - ./collector-config-local.yaml:/etc/collector-config.yaml
+    ports:
+      - "5555:5555"
+      - "6666:6666"
+
   tempo:
     image: grafana/tempo:1.5.0
     command: [ "-search.enabled=true", "-config.file=/etc/tempo.yaml" ]
