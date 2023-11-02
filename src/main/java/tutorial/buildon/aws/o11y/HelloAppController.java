@@ -6,6 +6,7 @@ import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +40,7 @@ public class HelloAppController {
         return response;
     }
 
+    @WithSpan //this is equivalent of creating span manually like we did in the above code
     private Response buildResponse() {
         return new Response("Hello World");
     }
